@@ -1,0 +1,30 @@
+{% extends 'main.html' %}
+
+{% block content %}
+  
+    <h1>HOME</h1>
+    <form method="GET" action="{% url 'home' %}">
+        <input type="text" name="q" placeholder="search candidates..."/>
+    </form>
+    <hr>
+      <a href="{% url 'create-candidate' %}"><button>create candidate</button></a>
+    <ul>
+        {% for candidate in candidates.object_list %}
+            <div style="justify-content: space-between;">
+                <li><h3><a href="{% url 'candidate' candidate.id %}">{{ candidate.candidateName }}</h3></a></li>
+                <a href="{% url 'update-candidate' candidate.id %}"><button>update</button></a>
+                <a href="{% url 'delete-candidate' candidate.id %}"><button>delete</button></a>
+            </div>
+        {% endfor %}
+    </ul>
+     <!-- <div> -->
+        {%if candidates.has_previous %} 
+            <a href="?page={{candidates.previous_page_number}}"><button>Back</button></a> 
+        {% endif %}
+        <span>{{candidates.number}}</span> 
+        
+        {%if candidates.has_next %} {# whether the next page exists #}
+            <a href="?page={{candidates.next_page_number}}"><button>Next</button></a> 
+        {% endif %}
+    <!-- </div> -->
+{% endblock content %}
